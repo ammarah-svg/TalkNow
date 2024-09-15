@@ -1,0 +1,24 @@
+
+  
+  .register-form h3 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .form-control {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .form-control:focus {
+    outline: none;
+    border-color: #00A884;
+    box-shadow: 0 0 5px rgba(0, 168, 132, 0.5);
+  }
+  
+
+   .custom-input {
+    /* background-color: #131f38; */
+    color: black !important;
+  }

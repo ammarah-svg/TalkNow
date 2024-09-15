@@ -1,0 +1,31 @@
+.item {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  cursor: pointer;
+  padding: 20px;
+  border-bottom: 1px solid gray;
+}
+
+.item img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.texts {
+  display: flex;
+  flex-direction: column; 
+  justify-content: flex-start; 
+  gap: 10px;
+}
+
+.texts h6 {
+  font-weight: 500;
+}
+
+.texts p {
+  font-size: 14px;
+  font-weight: 300;
+}
