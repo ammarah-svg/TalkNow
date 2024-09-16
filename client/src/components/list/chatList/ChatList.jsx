@@ -23,8 +23,8 @@ const ChatList = () => {
   };
 
   const filteredUsers = findUser();
-
-  console.log('Filtered Users:', filteredUsers); // Debugging line
+  console.log('Filtered Users:', filteredUsers); // Check if `id` is unique and present
+  
 
   return (
     <div className="chat_list">
@@ -47,8 +47,9 @@ const ChatList = () => {
       </div>
 
       {filteredUsers.map((data) => (
-        <SingleUser key={data.id} {...data} />
-      ))}
+  <SingleUser key={data.id || data._id || data.username} {...data} />
+))}
+
 
       {addMode && <AddUser />}
     </div>

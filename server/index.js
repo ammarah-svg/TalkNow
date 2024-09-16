@@ -8,11 +8,22 @@ require('dotenv').config();
 require('colors');
 const cors = require('cors');
 
-// Configure CORS
-const corsOptions = {
-  origin: "http://localhost:5173", 
-  credentials: true, 
-};
+
+// for making your servers
+const http = require('http');
+// for making socket server
+const { Server } = require('socket.io');
+
+
+// create socket server
+
+const io = new Server(server, {
+  cors: {
+      origin: "http://localhost:3000",
+      method: ['POST', 'GET']
+  }
+})
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

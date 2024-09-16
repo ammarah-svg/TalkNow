@@ -22,7 +22,7 @@ const Login = () => {
         }
 
         else if (isSuccess) {
-            navigate('/home')
+            navigate('/main')
         }
 
         dispatch(reset())
@@ -52,7 +52,7 @@ const Login = () => {
 
         dispatch(loginUser(values))
         if(isSuccess){
-            navigate('/userpage')
+            navigate('/main')
         }
 
     }

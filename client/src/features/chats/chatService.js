@@ -1,9 +1,6 @@
 import axios from "axios";
 const base_url = 'http://localhost:3000/api/chats';
 
-
-
-
 const addChat = async (userData) => {
     const response = await axios.post(`${base_url}/add-chat`, userData);
     return response.data
@@ -11,7 +8,6 @@ const addChat = async (userData) => {
 
 
 const addMessage = async (chatData) => {
-  
     const response = await axios.post(`${base_url}/add-message`, chatData);
     return response.data
 }

@@ -5,9 +5,9 @@ import List from '../../components/list/List';
 const Main = () => {
   return (
     <>
-      <div className='d-flex align-items-center justify-content-center'> 
+      <div className='container d-flex align-items-center justify-content-center'> 
         <List />
-        <div style={{ backgroundImage: 'url(/bgg.png)', width: '100%', height: '100%' }}></div>
+       <img src="/bgg.png" alt="" />
       </div>
     </>
   );
