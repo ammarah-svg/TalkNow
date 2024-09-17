@@ -1,13 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { authService } from "./authService";
 
-// Existing code...
-
+// Get user from localStorage
 const getUser = JSON.parse(localStorage.getItem("myUser"));
 
 const initialState = {
-  user: getUser ? getUser : null,
-  
+  user: getUser || null,
   isLoading: false,
   isError: false,
   isSuccess: false,
@@ -15,14 +13,13 @@ const initialState = {
   allUsers: [],
 };
 
-
 export const registerUser = createAsyncThunk(
   "auth/register",
   async (data, thunkAPI) => {
     try {
       return await authService.regUser(data);
     } catch (error) {
-      const errorMsg = error.response?.data?.message || "Registration failed";
+      const errorMsg = error.message || "Registration failed";
       return thunkAPI.rejectWithValue(errorMsg);
     }
   }
@@ -32,13 +29,17 @@ export const loginUser = createAsyncThunk(
   "auth/login",
   async (data, thunkAPI) => {
     try {
-      return await authService.logUser(data);
+      const userData = await authService.logUser(data);
+      localStorage.setItem("myUser", JSON.stringify(userData));
+      return userData;
     } catch (error) {
-      const errorMsg = error.response?.data?.message || "Login failed";
+      console.error("Login failed:", error.response); // Add this for logging
+      const errorMsg = error.response?.data?.message || error.message || "Login failed";
       return thunkAPI.rejectWithValue(errorMsg);
     }
   }
 );
+
 
 export const getUserData = createAsyncThunk(
   "auth/get-users",
@@ -46,22 +47,22 @@ export const getUserData = createAsyncThunk(
     try {
       return await authService.getUsers();
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data.message);
+      return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
 
-
-
-// Logout user thunk (optional if you want async handling)
-export const logoutUser = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
-  try {
-    await authService.logout(); // Remove user data from storage in authService
-    return true; // Return success to reducer
-  } catch (error) {
-    return thunkAPI.rejectWithValue("Logout failed");
+export const logoutUser = createAsyncThunk(
+  "auth/logout",
+  async (_, thunkAPI) => {
+    try {
+      await authService.logout();
+      return true; // Return success to reducer
+    } catch (error) {
+      return thunkAPI.rejectWithValue("Logout failed");
+    }
   }
-});
+);
 
 export const authSlice = createSlice({
   name: "auth",
@@ -73,11 +74,9 @@ export const authSlice = createSlice({
       state.isSuccess = false;
       state.message = "";
     },
-
-    // Logout reducer
     logout: (state) => {
-      state.user = null; // Clear user from state
-      localStorage.removeItem("myUser"); // Remove user from localStorage
+      state.user = null;
+      localStorage.removeItem("myUser");
     },
   },
   extraReducers: (builder) => {
@@ -102,14 +101,13 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
-        state.user = null; // Reset user on error
+        state.user = null;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
         state.user = action.payload;
       })
-
       .addCase(getUserData.pending, (state) => {
         state.isLoading = true;
       })
@@ -123,10 +121,9 @@ export const authSlice = createSlice({
         state.isSuccess = true;
         state.allUsers = action.payload;
       })
-
-      // Handle logout thunk
       .addCase(logoutUser.fulfilled, (state) => {
-        state.user = null; // Clear user from state after logout
+        state.user = null;
+        localStorage.removeItem("myUser");
       })
       .addCase(logoutUser.rejected, (state, action) => {
         state.isError = true;
@@ -135,6 +132,5 @@ export const authSlice = createSlice({
   },
 });
 
-// Export the logout action to be used in components
 export const { reset, logout } = authSlice.actions;
 export default authSlice.reducer;

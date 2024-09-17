@@ -2,3 +2,64 @@
     /* background-color: #131f38; */
     color: black !important;
   }
+
+
+
+  .login{
+
+
+display: flex;
+align-items: center;
+gap: 20px;
+
+flex-direction: column;
+
+
+.item{
+
+  flex:1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+
+
+}
+
+form{
+
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+
+input{
+
+  padding: 20px;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+
+}
+
+.btn-steal{
+
+  background-color: steelblue;
+
+}
+
+
+}
+
+
+
+label{
+
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+  }

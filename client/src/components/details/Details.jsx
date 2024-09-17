@@ -1,7 +1,5 @@
 import React from "react";
 import "./details.css";
-
-
 import { useDispatch } from 'react-redux';
 import { logoutUser } from '../../features/authentication/authSlice'; 
 import { useNavigate } from 'react-router-dom';
@@ -21,6 +19,8 @@ const Details = ({displayUserInfo}) => {
   const handleLogout = () => {
     dispatch(logoutUser());
     navigate('/'); 
+
+    
   };
 
 

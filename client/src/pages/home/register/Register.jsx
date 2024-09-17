@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from "react";
 import { Button } from 'react-bootstrap'; 
 import { useNavigate } from 'react-router-dom'; 
 import './register.css'; 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { registerUser } from '../../../features/authentication/authSlice';
 import axios from 'axios'; // Import axios for image upload
 
 const Register = () => {
+
+  const {user} = useSelector(state=>state.auth);
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -22,10 +24,13 @@ const Register = () => {
     if (name === 'password') setPassword(value);
   };
 
+
   const handleImageChange = (e) => {
     setAvatar(e.target.files[0]); // Store selected image
   };
 
+
+  
   const uploadImageToCloudinary = async (image) => {
     const formData = new FormData();
     formData.append('file', image);
@@ -76,7 +81,7 @@ const Register = () => {
       setAvatar(null); // Clear the image
 
       // Redirect to login page
-      navigate('/userpage');
+      navigate('/main');
     } catch (error) {
       console.error('Error during registration:', error); // Log error details
       const errorMessage = error.message || 'Sign up failed.';
@@ -85,6 +90,15 @@ const Register = () => {
       setIsLoading(false);
     }
   };
+
+
+  useEffect(() => {
+    if (user) {
+      localStorage.setItem('user', JSON.stringify(user));
+    }
+  }, [user]);
+
+
 
   return (
     <div className="register-form">

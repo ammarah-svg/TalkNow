@@ -28,7 +28,12 @@ const Login = () => {
         dispatch(reset())
     }, [isError, message])
 
-
+    useEffect(() => {
+        if (user) {
+          localStorage.setItem('user', JSON.stringify(user));
+        }
+      }, [user]);
+      
     const [formFields, setFormFields] = useState({
         email: '', password: ''
     });
