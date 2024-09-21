@@ -20,34 +20,14 @@ const addChat = AsyncHandler(async (req, res) => {
         res.send(newChat)
     }
 
-})
+});
 
 
 
-const addMessage = AsyncHandler(async (req, res) => {
-    // get the data from the frontend
-    const { sender_id, receiver_id, message } = req.body;
-    // get/find the users chat
-    const findChat = await Chats.findOne({
-        users: { $all: [sender_id, receiver_id] }
-    });
-    try {
-        // save the message in the database
-        findChat.chats.push({
-            message, id: uuidv4(), time: Date.now(), sender_id, receiver_id
-        })
-        await findChat.save();
-        res.send(findChat)
-    } catch (error) {
-        throw new Error(error)
-    }
-
-
-})
 
 
 
 module.exports = {
-    addChat,
-    addMessage
+    addChat
+    
 }
