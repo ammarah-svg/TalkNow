@@ -12,7 +12,9 @@ const Register = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [avatar, setAvatar] = useState(null); // State for the image file
+
+  const [avatar, setAvatar] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);  // State for the image file
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate(); 
   const dispatch = useDispatch();
@@ -22,13 +24,17 @@ const Register = () => {
     if (name === 'username') setUsername(value);
     if (name === 'email') setEmail(value);
     if (name === 'password') setPassword(value);
+  
   };
-
 
   const handleImageChange = (e) => {
-    setAvatar(e.target.files[0]); // Store selected image
+    const file = e.target.files[0];
+    if (file) {
+      const imageURL = URL.createObjectURL(file);
+      setImagePreview(imageURL); // Update the preview URL
+      setAvatar(file); // Store the file to upload to Cloudinary
+    }
   };
-
 
   
   const uploadImageToCloudinary = async (image) => {
@@ -98,19 +104,31 @@ const Register = () => {
     }
   }, [user]);
 
-
-
   return (
     <div className="register-form">
-      <h3>Sign Up</h3>
+      <h3>Create an account</h3>
       <form onSubmit={(e) => e.preventDefault()}>
-        <input
-          type="file"
-          placeholder='Upload an image'
-          name='avatar'
-          onChange={handleImageChange} // Handle image change
-          className="form-control mb-4"
-        />
+      <div className="image-upload">
+      <label htmlFor="file-input" className=" d-flex gap-2  upload-label">
+        <div className=" image-placeholder">
+          {/* Display preview image or placeholder */}
+          {imagePreview ? (
+            <img src={imagePreview} alt="Selected" className="preview-image" />
+          ) : (
+            <img src="/avatar.png" alt="Placeholder" className="preview-image" />
+          )}
+        </div>
+        <p>Upload your picture</p>
+      </label>
+
+      <input
+        id="file-input"
+        type="file"
+        accept="image/*"
+        onChange={handleImageChange} // Handle image change
+        className="file-input"
+      />
+    </div>
         <input
           className='form-control mb-4'
           type="text"

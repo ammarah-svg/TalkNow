@@ -9,10 +9,16 @@ const Home = () => {
     <>
    <div className='home-pg '>
    
-    <div className='container d-flex gap-5 justify-content-center align-items-center '>
-    <Login/>
-      <hr/>
-      <Register/>
+    <div  style={{gap:'12rem'}} className='container d-flex  justify-content-center align-items-center '>
+
+      <div>
+      <Login/>
+      </div>
+   <hr />
+   <div>
+   <Register/>
+   </div>
+     
       
     </div>
     </div>

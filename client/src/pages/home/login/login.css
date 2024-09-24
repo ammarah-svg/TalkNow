@@ -63,3 +63,30 @@ label{
 }
 
   }
+  .custom-input {
+    background-color: rgba(17, 25, 40, 0.7); /* Set background color */
+    color: white; /* Set text color */
+    border: none; /* Remove default border */
+    padding: 10px; /* Padding for the input */
+    outline: none; /* Remove default outline */
+  }
+  
+  .custom-input::placeholder {
+    color: rgba(255, 255, 255, 0.5); /* Placeholder with lighter white */
+  }
+  
+  .custom-input:focus {
+    background-color: rgba(17, 25, 40, 0.7); /* Ensure background stays the same on focus */
+    color: white; /* Keep text white */
+    outline: none; /* No focus outline */
+  }
+  
+  .custom-input:active {
+    background-color: rgba(17, 25, 40, 0.7); /* Ensure background stays the same on active */
+    color: white; /* Keep text white */
+  }
+  
+  .custom-input:focus-visible {
+    outline: 1px solid white; /* Optional white outline on focus for accessibility */
+  }
+  

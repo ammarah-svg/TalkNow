@@ -21,7 +21,7 @@ const Chat = ({ displayUserInfo }) => {
   const [message, setMessage] = useState("");
   const [sentMessages, setSentMessages] = useState([]);
   const [receivedMessages, setReceivedMessages] = useState([]);
-const [showPenal,setShowPenal] = useState(false)
+  const [showPenal, setShowPenal] = useState(false);
   const [open, setOpen] = useState(false);
   const inp = useRef();
   const endRef = useRef(null);
@@ -69,23 +69,7 @@ const [showPenal,setShowPenal] = useState(false)
 
   useEffect(() => {
     // Fetch chat history on mount
-    const fetchChatHistory = async () => {
-      const { data } = await axios.get(
-        `http://localhost:3000/api/chats/history/${chats?._id}`
-      );
-      setReceivedMessages(
-        data.map((msg) => ({
-          message: msg.message,
-          sent: msg.sender_id === user._id,
-          sortID: new Date(msg.sentAt).getTime(),
-          roomID: msg.roomID,
-        }))
-      );
-    };
-
-    if (chats?._id) {
-      fetchChatHistory();
-    }
+    
 
     // Socket listener for new messages
     socket.on("received_message", (data) => {
@@ -148,6 +132,73 @@ const [showPenal,setShowPenal] = useState(false)
     };
   }, [chats?._id]); // This effect will run when the room ID (chats._id) changes
 
+  const micRef = useRef();
+
+  const handleRecording = () => {
+    if (recording) {
+      stopRecording();
+    } else {
+      startRecording();
+    }
+    micRef?.current?.classList?.toggle("anim");
+  };
+  // handle audio
+
+  const [recording, setRecording] = useState(false);
+  const [stream, setStream] = useState(null);
+  const [myRecorder, setMyRecorder] = useState(null);
+  const [audioBlob, setAudioBlob] = useState(null);
+
+  // start recording
+  const startRecording = async () => {
+    try {
+      setRecording(true);
+      // get the access from the user to the microphone
+      const audioStream = await navigator.mediaDevices.getUserMedia({
+        audio: true,
+      });
+      setStream(audioStream);
+      // get the actual Recorder
+      const recorder = new MediaRecorder(audioStream);
+      // to make the recorder global
+      setMyRecorder(recorder);
+      // define an array, that is going to store the buffer
+      let chunks = [];
+      // start the recording when data is available
+      recorder.ondataavailable = (e) => {
+        chunks.push(e.data);
+      };
+
+      // when recording stops
+      recorder.onstop = () => {
+        // make a blob
+        const blob = new Blob(chunks);
+        setAudioBlob(blob);
+        socket.emit("send_message", { voice: blob, roomID: chats?._id });
+        setSentMessages([
+          ...sentMessages,
+          { voice: blob, sent: true, roomID: chats?._id, sortID: Date.now() },
+        ]);
+      };
+
+      // start the recording
+      recorder.start();
+    } catch (error) {
+      toast.error("Please grant access to the microphone to use this feature");
+    }
+  };
+
+  // stop the recording
+  const stopRecording = () => {
+    if (myRecorder) {
+      setRecording(false);
+      myRecorder.stop();
+      setMyRecorder(null);
+      setStream(null);
+      setAudioBlob(null);
+    }
+  };
+
   return (
     <div className="chat ">
       <div className="top ">
@@ -168,17 +219,24 @@ const [showPenal,setShowPenal] = useState(false)
       </div>
 
       <div className="middle">
-        <Messages allMessages={allMessages} />
+        <Messages allMessages={allMessages} audioBlob={audioBlob} />
       </div>
 
       <div className="bottom">
         <div className="icons">
           <div className="pic-parent">
             <img src="/img.png" alt="Image Icon" />
-           
           </div>
-          <img src="/camera.png" alt="Camera Icon" />
-          <img src="/mic.png" alt="Mic Icon" />
+          <div className="mic">
+            <div
+              ref={micRef}
+              onClick={handleRecording}
+              style={{ zIndex: "222" }}
+              className="microphone "
+            >
+              <img src="/mic.png" alt="Mic Icon" />
+            </div>
+          </div>
         </div>
 
         <input

@@ -65,16 +65,16 @@ const Login = () => {
     return (
         <>
             
-           <h5>Welcome back,</h5>
+           <h5 className='mb-5'>Welcome back,</h5>
               
                         <form>
                            
-                            <input name='email' value={email} onChange={handleChange} className='form-control' type="text" placeholder='Enter your registed email' />
+                            <input name='email' value={email} onChange={handleChange} className='form-control mt-3 mb-3' type="text" placeholder='Enter your registed email' />
                            
-                            <input name='password' value={password} onChange={handleChange} className='form-control' type="password" placeholder='Enter your password' />
+                            <input name='password' value={password} onChange={handleChange} className='form-control mb-4' type="password" placeholder='Enter your password' />
                             <Button onClick={handleLogin} style={{
-                                background: '#00A884'
-                            }} className='w-100 my-2 border-0 fw-bold'>
+                                
+                            }} className='w-100 bg-primary btn my-2 border-0 fw-bold'>
                                 Login
                             </Button>
                         </form>

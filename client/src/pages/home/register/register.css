@@ -22,3 +22,46 @@
     /* background-color: #131f38; */
     color: black !important;
   }
+
+
+  .image-upload {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .upload-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .image-placeholder {
+    width: 60px; /* Size of the small square */
+    height: 60px;
+    background-color: #f0f0f0; /* Light gray background for the placeholder */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    
+  }
+  
+  .preview-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+  
+  .file-input {
+    display: none;
+  }
+  
+  p {
+    margin-top: 8px;
+    color: #a19e9e;
+  }
+  

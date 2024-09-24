@@ -40,6 +40,7 @@ function App() {
           <Route path='/register' element={<Register />} />
           <Route path='/login' element={<Login />} />
           <Route path='/main' element={<Main />} />
+         
           <Route path='/main/messages/:id' element={<Userpage />} />
         </Routes>
       </Router>
