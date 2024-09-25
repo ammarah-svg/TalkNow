@@ -17,7 +17,6 @@ console.log(user)
 
         <div className='icons'>
           <img src="/more.png" alt="More" />
-          <img src="/video.png" alt="Video" />
           <img src="/edit.png" alt="Edit" />
         </div>
       </div>

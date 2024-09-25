@@ -214,7 +214,7 @@ const Chat = ({ displayUserInfo }) => {
         <div className="icons">
           <img src="/phone.png" alt="Phone Icon" />
           <img src="/video.png" alt="Video Icon" />
-          <img src="/info.png" alt="Info Icon" />
+     
         </div>
       </div>
 

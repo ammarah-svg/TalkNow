@@ -27,8 +27,8 @@ const Messages = ({ allMessages }) => {
         <div key={index}>
           {msg.sent ? (
             <p
-              className="bg-primary py-2 px-3 text-white ms-auto rounded-3"
-              style={{ width: "max-content" }}
+              className=" py-2 px-3 my-2 text-white ms-auto rounded-3"
+              style={{ width: "max-content", background:'#4682b4' }}
             >
               {msg.message && !msg.message.includes("<img") && msg.message}
               {msg?.voice && (
@@ -39,7 +39,7 @@ const Messages = ({ allMessages }) => {
             </p>
           ) : (
             <p 
-              className=" py-2 px-3 text-white me-auto rounded-3"
+              className=" py-2 px-3 my-2 text-white me-auto rounded-3"
               style={{ width: "max-content", background:'#2a3b4f' }}
             >
               {msg?.image && (
